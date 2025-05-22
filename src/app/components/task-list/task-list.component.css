@@ -1,0 +1,15 @@
+.cursor-pointer {
+  cursor: move;
+}
+.bg-gray {
+  background-color: #eaeaea79 !important;
+}
+
+.text-secondary-100 {
+  color: #ffffff !important;
+}
+.bg-gray-bar {
+  background-color: #4a69ff !important;
+    color: #ffffff !important;
+    border-radius: 5px 5px 0 0 !important;
+}

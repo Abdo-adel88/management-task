@@ -1,1 +1,32 @@
-/* You can add global styles to this file, and also import other style files */
+body {
+  margin: 0;
+  padding: 0;
+  background-color: #ffffff;
+
+  font-family: Arial, sans-serif;
+  color: #333;
+}
+/* styles.css */
+/* styles.css */
+.custom-toast {
+  background-color: #d4edda !important; /* لون أخضر فاتح */
+  color: #155724 !important; /* لون النص المناسب للون الأخضر */
+  border-left: 5px solid #28a745 !important; /* خط جانبي أخضر غامق */
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+  padding: 15px;
+  border-radius: 8px;
+  width: 300px;
+  position: fixed;
+  top: 10px !important;
+  right: 10px !important;
+}
+
+/* لو حابب تضيف أيقونة */
+
+.custom-toast .toast-title {
+  font-weight: bold;
+}
+
+.custom-toast .toast-message {
+  font-size: 14px;
+}

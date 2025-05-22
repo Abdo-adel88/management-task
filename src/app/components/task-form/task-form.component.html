@@ -1,0 +1,64 @@
+<div class="d-flex">
+  <button class="btn btn-primary px-5" (click)="openDialog()">
+    <i class="pi pi-plus"></i> Add Task
+  </button>
+</div>
+
+<!-- Bootstrap Modal -->
+<div
+  class="modal fade show"
+  [style.display]="display ? 'block' : 'none'"
+  tabindex="-1"
+  role="dialog"
+>
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content shadow">
+      <div
+        class="modal-header bg-primary-bar text-white d-flex justify-content-between align-items-center"
+      >
+        <h5 class="modal-title">📝 Add New Task</h5>
+
+        <i (click)="closeDialog()" class="fa-solid fa-xmark cursor-pointer"></i>
+      </div>
+      <div class="modal-body">
+        <div class="form-group mb-3">
+          <label for="title">Title</label>
+          <input
+            type="text"
+            id="title"
+            class="form-control"
+            [(ngModel)]="title"
+            placeholder="Enter task title"
+          />
+        </div>
+        <div class="form-group mb-3">
+          <label for="description">Description</label>
+          <textarea
+            id="description"
+            class="form-control"
+            rows="4"
+            [(ngModel)]="description"
+            placeholder="Enter task description"
+          ></textarea>
+        </div>
+        <div class="form-group mb-3">
+          <label for="status">Status</label>
+          <select class="form-control" id="status" [(ngModel)]="status">
+            <option [ngValue]="false">Not Completed</option>
+            <option [ngValue]="true">Completed</option>
+          </select>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-danger" (click)="closeDialog()">Cancel</button>
+        <button
+          class="btn btn-success"
+          (click)="saveTask()"
+          [disabled]="!title.trim() || !description.trim()"
+        >
+          Save
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,15 @@
+
+  .modal-backdrop {
+    display: none !important; /* نتجنب الطبقة الخلفية لو بتسبب مشاكل */
+  }
+  
+  .modal-content {
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.3);
+  }
+  .cursor-pointer{
+   cursor: pointer;
+  }
+  .bg-primary-bar{
+    background-color: #2544de !important;
+  }
