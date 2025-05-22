@@ -2,18 +2,10 @@ import { Component, signal } from '@angular/core';
 import { TaskFormComponent } from './components/task-form/task-form.component';
 import { TaskListComponent } from './components/task-list/task-list.component';
 import { CommonModule } from '@angular/common';
-import { ToastrModule } from 'ngx-toastr';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { Task } from './models/task.model';
 
-export interface Task {
-  id: number;
-  title: string;
-  description: string;
-  completed: boolean;
-  createdAt: Date;
-  updatedAt: Date;
-  status: boolean;
-}
+
+
 
 @Component({
   selector: 'app-root',

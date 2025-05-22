@@ -18,15 +18,24 @@ export class EditTaskDialogComponent {
 
   constructor(private fb: FormBuilder) {}
 
-  ngOnChanges() {
-    if (this.task) {
+ngOnChanges() {
+  if (this.task) {
+    if (!this.editForm) {
       this.editForm = this.fb.group({
         title: [this.task.title || '', Validators.required],
         description: [this.task.description || '', Validators.required],
         status: [this.task.status || false],
       });
+    } else {
+      this.editForm.patchValue({
+        title: this.task.title || '',
+        description: this.task.description || '',
+        status: this.task.status || false,
+      });
     }
   }
+}
+
 
   saveChanges() {
     if (this.editForm.invalid) return;

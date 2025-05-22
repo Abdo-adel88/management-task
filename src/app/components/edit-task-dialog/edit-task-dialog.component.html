@@ -6,52 +6,71 @@
     <div class="card-body">
       <h5 class="mb-3 text-primary fw-bold text-center">Edit Task</h5>
 
-      <!-- Start Form -->
-      <form [formGroup]="editForm" (ngSubmit)="saveChanges()">
-        <div class="mb-2">
-          <label class="form-label">Title</label>
-          <input
-            type="text"
-            class="form-control form-control-sm"
-            formControlName="title"
-          />
-        </div>
+   <form [formGroup]="editForm" (ngSubmit)="saveChanges()">
+  <div class="mb-2">
+    <label class="form-label">Title</label>
+    <input
+      type="text"
+      class="form-control form-control-sm"
+      formControlName="title"
+    />
+    <!-- رسالة الخطأ -->
+    <div
+      *ngIf="
+        editForm.controls['title'].touched &&
+        editForm.controls['title'].invalid
+      "
+      class="text-danger small mt-1"
+    >
+      Title is required.
+    </div>
+  </div>
 
-        <div class="mb-2">
-          <label class="form-label">Description</label>
-          <textarea
-            class="form-control form-control-sm"
-            formControlName="description"
-          ></textarea>
-        </div>
+  <div class="mb-2">
+    <label class="form-label">Description</label>
+    <textarea
+      class="form-control form-control-sm"
+      formControlName="description"
+    ></textarea>
+    <div
+      *ngIf="
+        editForm.controls['description'].touched &&
+        editForm.controls['description'].invalid
+      "
+      class="text-danger small mt-1"
+    >
+      Description is required.
+    </div>
+  </div>
 
-        <div class="form-check mb-3">
-          <input
-            type="checkbox"
-            class="form-check-input"
-            formControlName="status"
-            id="statusCheck"
-          />
-          <label class="form-check-label" for="statusCheck">Completed</label>
-        </div>
+  <div class="form-check mb-3">
+    <input
+      type="checkbox"
+      class="form-check-input"
+      formControlName="status"
+      id="statusCheck"
+    />
+    <label class="form-check-label" for="statusCheck">Completed</label>
+  </div>
 
-        <div class="d-flex justify-content-center gap-2">
-          <button
-            type="submit"
-            class="btn btn-sm btn-primary px-4"
-            [disabled]="editForm.invalid || !isTaskModified()"
-          >
-            Updated
-          </button>
-          <button
-            type="button"
-            class="btn btn-sm btn-secondary px-4"
-            (click)="cancelEdit()"
-          >
-            Cancel
-          </button>
-        </div>
-      </form>
+  <div class="d-flex justify-content-center gap-2">
+    <button
+      type="submit"
+      class="btn btn-sm btn-primary px-4"
+      [disabled]="editForm.invalid || !isTaskModified()"
+    >
+      Updated
+    </button>
+    <button
+      type="button"
+      class="btn btn-sm btn-secondary px-4"
+      (click)="cancelEdit()"
+    >
+      Cancel
+    </button>
+  </div>
+</form>
+
       <!-- End Form -->
     </div>
   </div>

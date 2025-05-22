@@ -1,8 +1,8 @@
 import { Component, EventEmitter, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Task } from '../../app.component';
 import { ToastrService } from 'ngx-toastr';
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Task } from '../../models/task.model';
 
 @Component({
   selector: 'app-task-form',
@@ -33,7 +33,7 @@ export class TaskFormComponent {
 
   closeDialog() {
     this.display = false;
-    this.taskForm.reset({ status: false }); // reset form
+    this.taskForm.reset({ status: false }); 
   }
 
   saveTask() {
