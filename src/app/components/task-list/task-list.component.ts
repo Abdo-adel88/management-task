@@ -4,11 +4,19 @@ import { EditTaskDialogComponent } from '../edit-task-dialog/edit-task-dialog.co
 import { ConfirmDeleteDialogComponent } from '../confirm-delete-dialog/confirm-delete-dialog.component';
 import { ToastrService } from 'ngx-toastr';
 import { CdkDragDrop, DragDropModule, moveItemInArray } from '@angular/cdk/drag-drop';
+import { FormControl, ReactiveFormsModule } from '@angular/forms';
+import { debounceTime, distinctUntilChanged, startWith } from 'rxjs/operators';
 
 @Component({
   selector: 'app-task-list',
   standalone: true,
-  imports: [CommonModule, EditTaskDialogComponent, ConfirmDeleteDialogComponent,DragDropModule],
+  imports: [
+    CommonModule,
+    EditTaskDialogComponent,
+    ConfirmDeleteDialogComponent,
+    DragDropModule,
+    ReactiveFormsModule 
+  ],
   templateUrl: './task-list.component.html',
   styleUrl: './task-list.component.css',
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
@@ -16,33 +24,57 @@ import { CdkDragDrop, DragDropModule, moveItemInArray } from '@angular/cdk/drag-
 export class TaskListComponent {
   @Input() tasks: any[] = [];
   @Output() tasksChanged = new EventEmitter<any[]>();
-  constructor(private toastr: ToastrService) {}
-  // Delete Dialog
+
+  constructor(private toastr: ToastrService) {
+    this.searchControl.valueChanges
+      .pipe(
+        startWith(''),
+        debounceTime(300),
+        distinctUntilChanged()
+      )
+      .subscribe(value => {
+        this.searchTerm = (value ?? '').toLowerCase();
+      });
+  }
+
+ 
+  searchControl = new FormControl('');
+  searchTerm: string = '';
+
   selectedTaskIndex: number | null = null;
   showConfirmDialog: boolean = false;
 
-  // Edit Dialog
+ 
   showEditDialog = false;
   taskBeingEdited: any = null;
+
   filter: 'all' | 'completed' | 'notCompleted' = 'all';
 
   drop(event: CdkDragDrop<any[]>) {
     if (this.filter !== 'all') return;
-  
+
     moveItemInArray(this.tasks, event.previousIndex, event.currentIndex);
     this.tasksChanged.emit(this.tasks);
   }
+
   get filteredTasks() {
     return this.tasks.filter(task => {
-      if (this.filter === 'completed') {
-        return task.status === true;
-      } else if (this.filter === 'notCompleted') {
-        return task.status === false;
-      }
-      return true; // 'all'
+     
+      const matchesFilter =
+        this.filter === 'all'
+          ? true
+          : this.filter === 'completed'
+          ? task.status === true
+          : task.status === false;
+
+     
+      const matchesSearch =
+        task.title?.toLowerCase().includes(this.searchTerm);
+
+      return matchesFilter && matchesSearch;
     });
   }
-  
+
   deleteTask(index: number) {
     this.openConfirmDialog(index);
   }
@@ -58,8 +90,7 @@ export class TaskListComponent {
       this.tasksChanged.emit(this.tasks);
       this.selectedTaskIndex = null;
       this.showConfirmDialog = false;
-      this.toastr.success(  `<i class="fa fa-trash"></i> Task deleted successfully!`,
-        'Deleted');
+      this.toastr.success(`<i class="fa fa-trash"></i> Task deleted successfully!`, 'Deleted');
     }
   }
 
@@ -79,8 +110,7 @@ export class TaskListComponent {
     this.taskBeingEdited = null;
     this.showEditDialog = false;
     this.tasksChanged.emit(this.tasks);
-    this.toastr.success(  `<i class="fa fa-check-circle"></i> Task updated successfully!`,
-      'Updated');
+    this.toastr.success(`<i class="fa fa-check-circle"></i> Task updated successfully!`, 'Updated');
   }
 
   onCancelEdit() {

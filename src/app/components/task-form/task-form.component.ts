@@ -1,24 +1,31 @@
 import { Component, EventEmitter, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
 import { Task } from '../../app.component';
 import { ToastrService } from 'ngx-toastr';
+import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-task-form',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule,ReactiveFormsModule],
   templateUrl: './task-form.component.html',
   styleUrls: ['./task-form.component.css']
 })
 export class TaskFormComponent {
   @Output() taskAdded = new EventEmitter<Task>();
-  constructor(private toastr: ToastrService) {}
-
   display: boolean = false;
-  title: string = '';
-  description: string = '';
-  status: boolean = false;
+
+  taskForm!: FormGroup;
+
+  constructor(private toastr: ToastrService, private fb: FormBuilder) {}
+
+  ngOnInit() {
+    this.taskForm = this.fb.group({
+      title: ['', Validators.required],
+      description: ['', Validators.required],
+      status: [false]
+    });
+  }
 
   openDialog() {
     this.display = true;
@@ -26,32 +33,33 @@ export class TaskFormComponent {
 
   closeDialog() {
     this.display = false;
+    this.taskForm.reset({ status: false }); // reset form
   }
 
   saveTask() {
-    if (!this.title.trim() || !this.description.trim()) {
+    if (this.taskForm.invalid) {
       this.toastr.error('Please fill in all fields', 'Missing Data');
       return;
     }
-  
+
+    const formValue = this.taskForm.value;
+
     const newTask: Task = {
       id: Date.now(),
-      title: this.title,
-      description: this.description,
-      status: this.status,
+      title: formValue.title.trim(),
+      description: formValue.description.trim(),
+      status: formValue.status,
       completed: false,
       createdAt: new Date(),
       updatedAt: new Date(),
     };
-  
-    this.toastr.success(`<i class="fa fa-check-circle"></i> Task added successfully!`, 'Success');
+
+    this.toastr.success(
+      `<i class="fa fa-check-circle"></i> Task added successfully!`,
+      'Success'
+    );
     this.taskAdded.emit(newTask);
-  
-    // Clear and close
-    this.title = '';
-    this.description = '';
-    this.status = false;
     this.closeDialog();
   }
-  
 }
+

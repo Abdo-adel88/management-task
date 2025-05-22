@@ -9,7 +9,15 @@
   color: #ffffff !important;
 }
 .bg-gray-bar {
-  background-color: #4a69ff !important;
+  background-color: rgb(13 110 253) !important;
     color: #ffffff !important;
     border-radius: 5px 5px 0 0 !important;
+}
+.bg-secondary-100 {
+  background-color: #f7f7f7 !important;
+}
+.search-box {
+  width: 100%;
+  max-width: 290px;
+  
 }

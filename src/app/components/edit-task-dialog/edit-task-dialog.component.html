@@ -1,35 +1,58 @@
-<!-- Edit Task Dialog -->
 <div
-  class="position-fixed top-0 start-0 w-100 h-100 d-flex align-items-center justify-content-center "
+  class="position-fixed top-0 start-0 w-100 h-100 d-flex align-items-center justify-content-center"
   style="background-color: rgba(0, 0, 0, 0.2); z-index: 1055"
 >
-  <div class="card shadow rounded-3 h-600 w-700" >
+  <div class="card shadow rounded-3 h-600 w-700">
     <div class="card-body">
       <h5 class="mb-3 text-primary fw-bold text-center">Edit Task</h5>
 
-      <div class="mb-2">
-        <label class="form-label">Title</label>
-        <input type="text" class="form-control form-control-sm" [(ngModel)]="editedTask.title" />
-      </div>
+      <!-- Start Form -->
+      <form [formGroup]="editForm" (ngSubmit)="saveChanges()">
+        <div class="mb-2">
+          <label class="form-label">Title</label>
+          <input
+            type="text"
+            class="form-control form-control-sm"
+            formControlName="title"
+          />
+        </div>
 
-      <div class="mb-2">
-        <label class="form-label">Description</label>
-        <textarea class="form-control form-control-sm" [(ngModel)]="editedTask.description"></textarea>
-      </div>
+        <div class="mb-2">
+          <label class="form-label">Description</label>
+          <textarea
+            class="form-control form-control-sm"
+            formControlName="description"
+          ></textarea>
+        </div>
 
-      <div class="form-check mb-3">
-        <input type="checkbox" class="form-check-input" [(ngModel)]="editedTask.status" id="statusCheck" />
-        <label class="form-check-label" for="statusCheck">Completed</label>
-      </div>
+        <div class="form-check mb-3">
+          <input
+            type="checkbox"
+            class="form-check-input"
+            formControlName="status"
+            id="statusCheck"
+          />
+          <label class="form-check-label" for="statusCheck">Completed</label>
+        </div>
 
-      <div class="d-flex justify-content-center gap-2">
-        <button class="btn btn-sm btn-primary px-4"
-        (click)="saveChanges()"
-        [disabled]="!isTaskModified() || !editedTask.title.trim() || !editedTask.description.trim()">
-  Updated
-</button>
-        <button class="btn btn-sm btn-secondary px-4" (click)="cancelEdit()">Cancel</button>
-      </div>
+        <div class="d-flex justify-content-center gap-2">
+          <button
+            type="submit"
+            class="btn btn-sm btn-primary px-4"
+            [disabled]="editForm.invalid || !isTaskModified()"
+          >
+            Updated
+          </button>
+          <button
+            type="button"
+            class="btn btn-sm btn-secondary px-4"
+            (click)="cancelEdit()"
+          >
+            Cancel
+          </button>
+        </div>
+      </form>
+      <!-- End Form -->
     </div>
   </div>
 </div>

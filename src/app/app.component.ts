@@ -49,6 +49,6 @@ export class AppComponent {
     localStorage.setItem('tasks', JSON.stringify(updatedTasks));
   }
   get taskList() {
-    return this.tasks(); // تستخدم في التمبلت
+    return this.tasks(); 
   }
 }

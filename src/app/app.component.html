@@ -1,7 +1,7 @@
 <div class="container p-4">
-  <div class="d-flex align-items-center justify-content-between">
+  <div class="d-flex  justify-content-between">
     <h1 class=" ">Task <br> Man<span class="text-primary">age</span>ment</h1>
-    <app-task-form  (taskAdded)="onTaskAdded($event)"></app-task-form>
+    <app-task-form class="d-flex align-items-end mb-8" (taskAdded)="onTaskAdded($event)"></app-task-form>
   </div>
   <app-task-list
     [tasks]="taskList"

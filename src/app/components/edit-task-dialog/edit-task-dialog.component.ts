@@ -1,11 +1,11 @@
 import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-edit-task-dialog',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, ReactiveFormsModule],
   templateUrl: './edit-task-dialog.component.html',
   styleUrls: ['./edit-task-dialog.component.css']
 })
@@ -14,26 +14,43 @@ export class EditTaskDialogComponent {
   @Output() save = new EventEmitter<any>();
   @Output() cancel = new EventEmitter<void>();
 
-  editedTask: any = {};
+  editForm!: FormGroup;
+
+  constructor(private fb: FormBuilder) {}
 
   ngOnChanges() {
-    // نعمل نسخة محلية علشان نعدل عليها بدون ما نأثر على الأصل مباشرة
-    this.editedTask = { ...this.task };
+    if (this.task) {
+      this.editForm = this.fb.group({
+        title: [this.task.title || '', Validators.required],
+        description: [this.task.description || '', Validators.required],
+        status: [this.task.status || false],
+      });
+    }
   }
 
   saveChanges() {
-    this.save.emit(this.editedTask);
+    if (this.editForm.invalid) return;
+
+    const updatedTask = {
+      ...this.task,
+      ...this.editForm.value,
+      updatedAt: new Date()
+    };
+
+    this.save.emit(updatedTask);
   }
 
   cancelEdit() {
     this.cancel.emit();
   }
+
   isTaskModified(): boolean {
+    if (!this.editForm) return false;
     return (
-      this.task.title.trim() !== this.editedTask.title.trim() ||
-      this.task.description.trim() !== this.editedTask.description.trim() ||
-      this.task.status !== this.editedTask.status
+      this.task.title.trim() !== this.editForm.value.title.trim() ||
+      this.task.description.trim() !== this.editForm.value.description.trim() ||
+      this.task.status !== this.editForm.value.status
     );
   }
-  
 }
+
