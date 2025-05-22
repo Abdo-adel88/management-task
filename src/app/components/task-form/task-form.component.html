@@ -1,11 +1,11 @@
-<!-- زرار فتح النموذج -->
+
 <div class="d-flex">
   <button class="btn btn-primary px-5" (click)="openDialog()">
     <i class="pi pi-plus"></i> Add Task
   </button>
 </div>
 
-<!-- المودال -->
+
 <div
   class="modal fade show"
   [style.display]="display ? 'block' : 'none'"
@@ -13,7 +13,7 @@
   role="dialog"
 >
   <div class="modal-dialog modal-dialog-centered" role="document">
-    <div class="modal-content shadow">
+    <div class="modal-content shadow w-responsive">
       <div class="modal-header bg-primary-bar text-white d-flex justify-content-between align-items-center">
         <h5 class="modal-title">📝 Add New Task</h5>
         <i (click)="closeDialog()" class="fa-solid fa-xmark cursor-pointer"></i>

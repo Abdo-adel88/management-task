@@ -13,3 +13,10 @@
   .bg-primary-bar{
     background-color: rgb(13 110 253) !important;
   }
+  @media (max-width: 768px) {
+   .w-responsive{
+        max-width: 400px;
+
+  }
+  }
+ 
